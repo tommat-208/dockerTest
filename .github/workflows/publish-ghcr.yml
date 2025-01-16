@@ -1,0 +1,15 @@
+name: Docker Image CI for GHCR
+
+on:
+    push
+
+jobs:
+    build_and_publish:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Build and push the image
+              run: |
+                docker login --username tommat-208 -- password ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+                docker build -f Dockerfile .. --tag ghcr.io/tommat-208/docker-test-ghcr:latest
+                docker push ghcr.io/tommat-208/docker-test-ghcr:latest

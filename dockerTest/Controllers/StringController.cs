@@ -10,7 +10,7 @@ namespace dockerTest.Controllers
         [HttpGet]
         public IActionResult GetString()
         {
-            return Ok("ciao sono l'api :D");
+            return Ok("ciao sono l'api");
         }
 
         
