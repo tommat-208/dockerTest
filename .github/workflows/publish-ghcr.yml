@@ -33,8 +33,8 @@ jobs:
                 })
             
             - name: Docker Login
-                run: |
-                    docker login --username tommat-208 --password ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} ghcr.io
+              run: |
+                docker login --username tommat-208 --password ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} ghcr.io
     
             
             - name: Build and push the image
