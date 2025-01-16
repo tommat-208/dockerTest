@@ -44,4 +44,5 @@ jobs:
               run: |
                 version=${{ steps.extractVersion.outputs.version }}
                 docker build -f dockerTest/Dockerfile . --tag ghcr.io/tommat-208/docker-test-ghcr:latest --tag ghcr.io/tommat-208/docker-test-ghcr:$version
+                docker push ghcr.io/tommat-208/docker-test-ghcr:latest
                 docker push ghcr.io/tommat-208/docker-test-ghcr:$version
