@@ -10,8 +10,35 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
+            
+            - name: Extract Version
+                id: extractVersion
+                shell: pwsh
+                run: |
+                $xml = [Xml] (Get-Content ./dockerTest/dockerTest.csproj)
+                $version = $xml.Project.PropertyGroup.ApplicationVersion | Select-Object -First 1
+                echo "version=$($version)" >> $env:GITHUB_OUTPUT
+
+            # Creazione di un tag Git
+            - name: Create Tag
+                uses: actions/github-script@v5
+                with:
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                script: |
+                    github.rest.git.createRef({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        sha: context.sha,
+                        ref: 'refs/tags/v${{ steps.extractVersion.outputs.version }}'
+                    })
+            
+            - name: Docker Login
+                run: |
+                    docker login --username tommat-208 --password ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} ghcr.io
+    
+            
             - name: Build and push the image
               run: |
-                docker login --username tommat-208 --password ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} ghcr.io
-                docker build -f dockerTest/Dockerfile . --tag ghcr.io/tommat-208/docker-test-ghcr:latest
-                docker push ghcr.io/tommat-208/docker-test-ghcr:latest
+                version=${{ steps.extractVersion.outputs.version }}
+                docker build -f dockerTest/Dockerfile . --tag ghcr.io/tommat-208/docker-test-ghcr:latest --tag ghcr.io/tommat-208/docker-test-ghcr:$version
+                docker push ghcr.io/tommat-208/docker-test-ghcr:$version
