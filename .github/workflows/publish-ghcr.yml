@@ -23,14 +23,14 @@ jobs:
             - name: Create Tag
               uses: actions/github-script@v5
               with:
-              github-token: ${{ secrets.GITHUB_TOKEN }}
-              script: |
-                github.rest.git.createRef({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    sha: context.sha,
-                    ref: 'refs/tags/v${{ steps.extractVersion.outputs.version }}'
-                })
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                script: |
+                    github.rest.git.createRef({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        sha: context.sha,
+                        ref: 'refs/tags/v${{ steps.extractVersion.outputs.version }}'
+                    })
             
             - name: Docker Login
               run: |
