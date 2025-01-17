@@ -5,29 +5,33 @@ on:
         branches:
             - master
 
+env:
+    DB_SERVER: server
+    DB_USER: user
+    ID_CLIENTE: id_cliente
+
 jobs:
     pull_test:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
             
-            - name: Installa sqlcmd tool
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y mssql-tools
+            # step per ottenere l'id cliente?
 
-            - name: Ottieni versione
+            - name: Ottieni versione dal tag
               id: get_version
               run: |
                 VERSION=$(git describe --tags --always)
                 echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
+            - name: Installa sqlcmd tool
+              run: |
+                sudo apt-get update
+                sudo apt-get install -y mssql-tools
+
             - name: Inserimento record in SQL
               run: |
-                sqlcmd -S $DB_SERVER -U $DB_USER -P $DB_PASSWORD -d $DB_NAME -Q "INSERT INTO installazione (id_cliente, data_installazione, versione) VALUES ($ID_CLIENTE, GETDATE(), '${{ env.VERSION }}')"
-                
-
-
+                sqlcmd -S ${{ env.DB_SERVER }} -U ${{ env.DB_USER }} -P ${{ secrets.DB_PASSWORD }} -d prova_clienti -Q "INSERT INTO installazione (id_cliente, data_installazione, versione) VALUES (${{ ID_CLIENTE }}, GETDATE(), '${{ env.VERSION }}')"
 
             - name: Docker Login
               run: |
