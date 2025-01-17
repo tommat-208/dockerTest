@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Reflection;
+using System.Xml.Schema;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dockerTest.Controllers
@@ -11,6 +13,14 @@ namespace dockerTest.Controllers
         public IActionResult GetString()
         {
             return Ok("ciao sono l'api");
+
+        }
+
+        [HttpGet("version")]
+        public IActionResult GetVersion()
+        {
+            
+            return Ok();
         }
 
         

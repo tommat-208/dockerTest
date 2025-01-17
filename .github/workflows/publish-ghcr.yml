@@ -19,7 +19,7 @@ jobs:
               shell: pwsh
               run: |
                 $xml = [Xml] (Get-Content ./dockerTest/dockerTest.csproj)
-                $version = $xml.Project.PropertyGroup.ApplicationVersion | Select-Object -First 1
+                $version = $xml.Project.PropertyGroup.Version | Select-Object -First 1
                 echo "version=$($version)" >> $env:GITHUB_OUTPUT
 
             # Creazione di un tag Git
