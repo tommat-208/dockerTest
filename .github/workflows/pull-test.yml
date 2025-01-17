@@ -1,0 +1,41 @@
+name: Pull Test
+
+on:
+    pull_request:
+        branches:
+            - master
+
+jobs:
+    pull_test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            
+            - name: Installa sqlcmd tool
+              run: |
+                sudo apt-get update
+                sudo apt-get install -y mssql-tools
+
+            - name: Ottieni versione
+              id: get_version
+              run: |
+                VERSION=$(git describe --tags --always)
+                echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
+            - name: Inserimento record in SQL
+              run: |
+                sqlcmd -S $DB_SERVER -U $DB_USER -P $DB_PASSWORD -d $DB_NAME -Q "INSERT INTO installazione (id_cliente, data_installazione, versione) VALUES ($ID_CLIENTE, GETDATE(), '${{ env.VERSION }}')"
+                
+
+
+
+            - name: Docker Login
+              run: |
+                docker login --username tommat-208 --password ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} ghcr.io
+
+            - name: Pull dell'immagine
+              run: |
+                docker pull ghcr.io/tommat-208/docker-test-ghcr:latest
+    
+            
+
