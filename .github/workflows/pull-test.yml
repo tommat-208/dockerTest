@@ -7,16 +7,18 @@ on:
 
 env:
     DB_SERVER: server
-    DB_USER: user
+    DB_USER: utente
     ID_CLIENTE: id_cliente
-
+    DOCKER_USERNAME: username # usa lo username di github
 jobs:
     pull_test:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
             
-            # step per ottenere l'id cliente?
+            # step per ottenere l'id cliente
+            # - name: Ottieni id cliente 
+            # ...
 
             - name: Ottieni versione dal tag
               id: get_version
@@ -35,11 +37,11 @@ jobs:
 
             - name: Docker Login
               run: |
-                docker login --username tommat-208 --password ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} ghcr.io
+                docker login --username ${{ env.DOCKER_USERNAME }} --password ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} ghcr.io
 
             - name: Pull dell'immagine
               run: |
-                docker pull ghcr.io/tommat-208/docker-test-ghcr:latest
+                docker pull ghcr.io/${{ env.DOCKER_USERNAME }}/docker-test-ghcr:latest
     
             
 
