@@ -13,7 +13,7 @@ namespace dockerTest.Controllers
         [HttpGet]
         public IActionResult GetString()
         {
-            return Ok("Ciao sono l'api!!!");
+            return Ok("I am the api");
 
         }
 
@@ -23,6 +23,8 @@ namespace dockerTest.Controllers
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fileVersionInfo.ProductVersion;
+
+            version = version.Split('+').FirstOrDefault();
 
             return Ok(version);
         }
