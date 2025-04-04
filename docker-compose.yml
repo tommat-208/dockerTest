@@ -1,0 +1,6 @@
+services:
+  dockertest:
+    image: ${DOCKER_REGISTRY-}dockertest
+    build:
+      context: .
+      dockerfile: dockerTest/Dockerfile
