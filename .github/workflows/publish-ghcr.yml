@@ -39,7 +39,7 @@ jobs:
               run: |
                 docker login --username tommat-208 --password ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} ghcr.io
     
-            
+            # rimpiazzare con docker-compose.yml
             - name: Build and push the image
               run: |
                 version=${{ steps.extractVersion.outputs.version }}
