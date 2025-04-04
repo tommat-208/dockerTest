@@ -1,6 +1,17 @@
 services:
   dockertest:
-    image: ${DOCKER_REGISTRY-}dockertest
+    # image: ${DOCKER_REGISTRY-}dockertest
+    image: ghcr.io/tommat-208/docker-test-ghcr:latest
     build:
       context: .
       dockerfile: dockerTest/Dockerfile
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true  # Rimuove le vecchie immagini
+      - WATCHTOWER_POLL_INTERVAL=30  # Controlla ogni 30 secondi
+    restart: unless-stopped
