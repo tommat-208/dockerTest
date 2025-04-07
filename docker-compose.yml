@@ -4,6 +4,7 @@ services:
     ports:
       - "8080:8080"
       - "8081:8081"
+    restart: unless-stopped
 
   watchtower:
     image: containrrr/watchtower
@@ -13,4 +14,5 @@ services:
     environment:
       - WATCHTOWER_CLEANUP=true  # Rimuove le vecchie immagini
       - WATCHTOWER_POLL_INTERVAL=15  # Controlla ogni 15 secondi  
+      - WATCHTOWER_DEBUG=true
     restart: unless-stopped
