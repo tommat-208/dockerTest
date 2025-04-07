@@ -14,7 +14,6 @@ namespace dockerTest.Controllers
         public IActionResult GetString()
         {
             return Ok("Sono l'api, ciao");
-
         }
 
         [HttpGet("version")]
