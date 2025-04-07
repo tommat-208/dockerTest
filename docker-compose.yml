@@ -13,9 +13,7 @@ services:
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - WATCHTOWER_CLEANUP=true  # Rimuove le vecchie immagini
-      - WATCHTOWER_POLL_INTERVAL=30  # Controlla ogni 30 secondi
-    restart: unless-stopped
+    command: --interval 30 --cleanup --debug --label-enable
