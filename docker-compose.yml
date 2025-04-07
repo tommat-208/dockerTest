@@ -2,9 +2,9 @@ services:
   dockertest:
     #image: ${DOCKER_REGISTRY-}dockertest
     image: ghcr.io/tommat-208/docker-test-ghcr:latest
-    # build:
-    #   context: .
-    #   dockerfile: dockerTest/Dockerfile
+    build:
+      context: .
+      dockerfile: dockerTest/Dockerfile
     ports:
       - "8080:8080"
       - "8081:8081"
